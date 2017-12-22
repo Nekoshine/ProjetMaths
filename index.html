@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html lang="fr">
+  <head    
+    <meta charset="UTF-8">
+    <title>Classement des eleves</title>
+    <link rel="stylesheet" type="text/css" href="Style.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" media="(max-width: 1440px)" href="Css.css" />
+    <script src="http://www.iut-fbleau.fr/projet/maths/?rah_external_output=pagerank.js"></script>
+    <script src="http://www.iut-fbleau.fr/projet/maths/?rah_external_output=logins.js"></script>
+</head>
+<body>
+  <div class="page">
+    <br>
+    <p> Choisissez une matiere : </p>
+    <br>
+    <form>
+      <select name="Matieres" id="matieres"size="3">
+	<option>APL
+	<option>ASR
+	<option>ACDA
+	<option>SGBD
+	<option>EGOD
+      </select>      
+      <input type="button" onClick="validerMatiere()" value="Valider matiere">
+    </form>
+    <br>
+    <p id ="message"> Matiere choisie :</p>
+  </div>
+  
+  <script type="text/javascript">
+    
+    function validerMatiere(){
+    var matiere = document.getElementById("matieres").value;
+    document.getElementById("message").innerHTML="Matiere choisie : " + matiere;
+    }
+    
+  </script>    
+</body>
+</html>
