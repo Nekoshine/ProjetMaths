@@ -1,175 +1,180 @@
 <!DOCTYPE HTML>
 <html lang="fr">
-  <head>   
+
+<head>
     <meta charset="UTF-8">
     <title>Classement des eleves</title>
     <link rel="stylesheet" type="text/css" href="Style.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link rel="stylesheet" media="(max-width: 1440px)" href="Style.css" />
     <script src="http://www.iut-fbleau.fr/projet/maths/?rah_external_output=pagerank.js"></script>
-<script src="http://www.iut-fbleau.fr/projet/maths/?rah_external_output=logins.js"></script>
-	<script type="text/javascript">
-		
-		function initialiserMatriceDeVote(){	
-			var nb = 0;
-			//Compte combien de login
-			for (var i in logins) {
-				nb++;
-			}
-			
-			var matriceDeVote = new Array();
-			matriceDeVote.length = parseInt(nb);
-			//S'utilise après comme un tableau a deux dimensions normal
-			
-			for (var i=0; i<matriceDeVote.length; i++) {
-  			for (var j=0; j<matriceDeVote.length; j++) {
-    			if (!matriceDeVote[i]) matriceDeVote[i] = new Array(); 
-    			matriceDeVote[i][j] = 1;
-  			}
-			}
-			return matriceDeVote;
-		}
-		
-		function determinerLigne_Colonne(idEleve){
-			var nb = 0;
-			for (var i in logins) {
-				if(idEleve == i)
-					return nb;
-				nb++;
-			}
-			//Si le nom n'est pas dans les logins comme Dorotte
-			return -1;
-		}		
-		
-		function validerMatiere(){
-    	var matiere = document.getElementById("matieres").value;
-    	document.getElementById("message").innerHTML="Matiere choisie : " + matiere;
-    	test(matiere);
-		}
-		
-    function test(matiere){
-			var ligne;
-			var colonne;
-			var nbVote;
-			var matriceDeVote = initialiserMatriceDeVote();
-		
-			for (var EleveVoteur in votes) {
-				ligne = determinerLigne_Colonne(EleveVoteur);
-				if(ligne != -1){
-					//console.log("Votes de "+EleveVoteur);
-					//console.log("Numero de ligne pour la matrice : "+ligne);
-				
-					nbVote = 0;
-				
-					//Compte pour combien de personne, elle a voté
-					for(var EleveElu of votes[EleveVoteur][matiere]){
-						nbVote++;
-					}
-				
-					var pointAttribue = 1/nbVote;
-					for(var EleveElu of votes[EleveVoteur][matiere]){
-						colonne = determinerLigne_Colonne(EleveElu);
-						if(colonne != -1){
-							//console.log(EleveElu);
-							//console.log("ligne "+ligne+" | colonne "+colonne);
-							matriceDeVote[ligne][colonne] += pointAttribue; 
-						}
-					}
-				} 
-			}
-			consrtuireClassement(matriceDeVote);
-		}
-		
-		function consrtuireClassement(matrice){
-			var nb = 0;
-			for (var i in logins) {
-				nb++;
-			}
-			
-			var classement = new Array();
-			classement.length = parseInt(nb);
-			
-			var classementEleve = new Array();
-			classementEleve.length = parseInt(nb);
-			
-			var val;
-			
-			for (var i=0; i<matrice.length; i++) {
-				val = 0;
-  			for (var j=0; j<matrice.length; j++) {
-					val = val + matrice[j][i];
-				}
-				classement[i] = val;
-				var compteur = 0;
-				for(var k in logins){
-					if(i == compteur)
-						classementEleve[i] = ""+k;
-					compteur++;
-				}
-			}
-			
-			//Fonction de Tri pour le nom
-			var tri = function(t , f, tabDeNom){
- 				for(var i=1 ; i < t.length ; i++){
-  				var temp= t[i] ;
-					var temp2 = tabDeNom[i];
- 					var j = i-1 ;
-  				while( f(temp, t[j]) && j>=0){
-    				t[j+1]= t[j];
-						tabDeNom[j+1] = tabDeNom[j];
-     				j-- ;
-   				};
-   				t[j+1]=temp;
-					tabDeNom[j+1] = temp2;
- 				} 
-				return tabDeNom;
-			}
+    <script src="http://www.iut-fbleau.fr/projet/maths/?rah_external_output=logins.js"></script>
+    <script type="text/javascript">
+        function initialiserMatriceDeVote() {
+            var nb = 0;
+            //Compte combien de login
+            for (var i in logins) {
+                nb++;
+            }
 
-			tri(classement, function(a, b){ return   a > b;}, classementEleve);
-			
-			//Fonction de tri pour les notes
-			var tri = function(t , f){
- 				for(var i=1 ; i < t.length ; i++){
-  				var temp= t[i] ;
- 					var j = i-1 ;
-  				while( f(temp, t[j]) && j>=0){
-    				t[j+1]= t[j];
-     				j-- ;
-   				};
-   				t[j+1]=temp;
- 				} 
-				return t;
-			}
+            var matriceDeVote = new Array();
+            matriceDeVote.length = parseInt(nb);
+            //S'utilise après comme un tableau a deux dimensions normal
 
-			tri(classement, function(a, b){ return   a > b;})
-			
-			
-			//Boucle pour visualiser le resultat du premier classement dans la console 
-			for (var i=0; i<classement.length; i++) {
-					console.log(classementEleve[i]); // Classement des Eleves par nom, les plus forts a 0 et les nul en dernier
-					console.log(classement[i]); //Classement des Notes des Eleves
-			}
-		}
-		
-		</script>
+            for (var i = 0; i < matriceDeVote.length; i++) {
+                for (var j = 0; j < matriceDeVote.length; j++) {
+                    if (!matriceDeVote[i]) matriceDeVote[i] = new Array();
+                    matriceDeVote[i][j] = 1;
+                }
+            }
+            return matriceDeVote;
+        }
+
+        function determinerLigne_Colonne(idEleve) {
+            var nb = 0;
+            for (var i in logins) {
+                if (idEleve == i)
+                    return nb;
+                nb++;
+            }
+            //Si le nom n'est pas dans les logins comme Dorotte
+            return -1;
+        }
+
+        function validerMatiere() {
+            var matiere = document.getElementById("matieres").value;
+            document.getElementById("message").innerHTML = "Matiere choisie : " + matiere;
+            test(matiere);
+        }
+
+        function test(matiere) {
+            var ligne;
+            var colonne;
+            var nbVote;
+            var matriceDeVote = initialiserMatriceDeVote();
+
+            for (var EleveVoteur in votes) {
+                ligne = determinerLigne_Colonne(EleveVoteur);
+                if (ligne != -1) {
+                    //console.log("Votes de "+EleveVoteur);
+                    //console.log("Numero de ligne pour la matrice : "+ligne);
+
+                    nbVote = 0;
+
+                    //Compte pour combien de personne, elle a voté
+                    for (var EleveElu of votes[EleveVoteur][matiere]) {
+                        nbVote++;
+                    }
+
+                    var pointAttribue = 1 / nbVote;
+                    for (var EleveElu of votes[EleveVoteur][matiere]) {
+                        colonne = determinerLigne_Colonne(EleveElu);
+                        if (colonne != -1) {
+                            //console.log(EleveElu);
+                            //console.log("ligne "+ligne+" | colonne "+colonne);
+                            matriceDeVote[ligne][colonne] += pointAttribue;
+                        }
+                    }
+                }
+            }
+            consrtuireClassement(matriceDeVote);
+        }
+
+        function consrtuireClassement(matrice) {
+            var nb = 0;
+            for (var i in logins) {
+                nb++;
+            }
+
+            var classement = new Array();
+            classement.length = parseInt(nb);
+
+            var classementEleve = new Array();
+            classementEleve.length = parseInt(nb);
+
+            var val;
+
+            for (var i = 0; i < matrice.length; i++) {
+                val = 0;
+                for (var j = 0; j < matrice.length; j++) {
+                    val = val + matrice[j][i];
+                }
+                classement[i] = val;
+                var compteur = 0;
+                for (var k in logins) {
+                    if (i == compteur)
+                        classementEleve[i] = "" + k;
+                    compteur++;
+                }
+            }
+
+            //Fonction de Tri pour le nom
+            var tri = function(t, f, tabDeNom) {
+                for (var i = 1; i < t.length; i++) {
+                    var temp = t[i];
+                    var temp2 = tabDeNom[i];
+                    var j = i - 1;
+                    while (f(temp, t[j]) && j >= 0) {
+                        t[j + 1] = t[j];
+                        tabDeNom[j + 1] = tabDeNom[j];
+                        j--;
+                    };
+                    t[j + 1] = temp;
+                    tabDeNom[j + 1] = temp2;
+                }
+                return tabDeNom;
+            }
+
+            tri(classement, function(a, b) {
+                return a > b;
+            }, classementEleve);
+
+            //Fonction de tri pour les notes
+            var tri = function(t, f) {
+                for (var i = 1; i < t.length; i++) {
+                    var temp = t[i];
+                    var j = i - 1;
+                    while (f(temp, t[j]) && j >= 0) {
+                        t[j + 1] = t[j];
+                        j--;
+                    };
+                    t[j + 1] = temp;
+                }
+                return t;
+            }
+
+            tri(classement, function(a, b) {
+                return a > b;
+            })
+
+
+            //Boucle pour visualiser le resultat du premier classement dans la console 
+            for (var i = 0; i < classement.length; i++) {
+                console.log(classementEleve[i]); // Classement des Eleves par nom, les plus forts a 0 et les nul en dernier
+                console.log(classement[i]); //Classement des Notes des Eleves
+            }
+        }
+    </script>
 </head>
+
 <body>
-  <div class="page">
-    <br>
-    <p> Choisissez une matiere : </p>
-    <br>
-    <form>
-      <select name="Matieres" id="matieres"size="3">
+    <div class="page">
+        <br>
+        <p> Choisissez une matiere : </p>
+        <br>
+        <form>
+            <select name="Matieres" id="matieres" size="3">
 	<option>APL
 	<option>ASR
 	<option>ACDA
 	<option>SGBD
 	<option>EGOD
-      </select>      
-      <input type="button" onClick="validerMatiere()" value="Valider matiere">
-    </form>
-    <br>
-    <p id ="message"> Matiere choisie :</p>
-  </div>   
+      </select>
+            <input type="button" onClick="validerMatiere()" value="Valider matiere">
+        </form>
+        <br>
+        <p id="message"> Matiere choisie :</p>
+    </div>
 </body>
+
 </html>
