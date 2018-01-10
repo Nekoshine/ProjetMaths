@@ -41,13 +41,44 @@
             return -1;
         }
 
+        //Fonction de Tri pour le nom
+        function tri(t, f, tabDeNom) {
+            for (var i = 1; i < t.length; i++) {
+                var temp = t[i];
+                var temp2 = tabDeNom[i];
+                var j = i - 1;
+                while (f(temp, t[j]) && j >= 0) {
+                    t[j + 1] = t[j];
+                    tabDeNom[j + 1] = tabDeNom[j];
+                    j--;
+                };
+                t[j + 1] = temp;
+                tabDeNom[j + 1] = temp2;
+            }
+            return tabDeNom;
+        }
+
+        //Fonction de tri pour les notes
+        function tri(t, f) {
+            for (var i = 1; i < t.length; i++) {
+                var temp = t[i];
+                var j = i - 1;
+                while (f(temp, t[j]) && j >= 0) {
+                    t[j + 1] = t[j];
+                    j--;
+                };
+                t[j + 1] = temp;
+            }
+            return t;
+        }
+
         function validerMatiere() {
             var matiere = document.getElementById("matieres").value;
             document.getElementById("message").innerHTML = "Matiere choisie : " + matiere;
-            test(matiere);
+            remplirMatrice(matiere);
         }
 
-        function test(matiere) {
+        function remplirMatrice(matiere) {
             var ligne;
             var colonne;
             var nbVote;
@@ -77,10 +108,10 @@
                     }
                 }
             }
-            consrtuireClassement(matriceDeVote);
+            consrtuireClassement(matriceDeVote, matiere);
         }
 
-        function consrtuireClassement(matrice) {
+        function consrtuireClassement(matrice, matiere) {
             var nb = 0;
             for (var i in logins) {
                 nb++;
@@ -108,51 +139,98 @@
                 }
             }
 
-            //Fonction de Tri pour le nom
-            var tri = function(t, f, tabDeNom) {
-                for (var i = 1; i < t.length; i++) {
-                    var temp = t[i];
-                    var temp2 = tabDeNom[i];
-                    var j = i - 1;
-                    while (f(temp, t[j]) && j >= 0) {
-                        t[j + 1] = t[j];
-                        tabDeNom[j + 1] = tabDeNom[j];
-                        j--;
-                    };
-                    t[j + 1] = temp;
-                    tabDeNom[j + 1] = temp2;
-                }
-                return tabDeNom;
-            }
-
+            //Tri pour le nom
             tri(classement, function(a, b) {
                 return a > b;
             }, classementEleve);
 
-            //Fonction de tri pour les notes
-            var tri = function(t, f) {
-                for (var i = 1; i < t.length; i++) {
-                    var temp = t[i];
-                    var j = i - 1;
-                    while (f(temp, t[j]) && j >= 0) {
-                        t[j + 1] = t[j];
-                        j--;
-                    };
-                    t[j + 1] = temp;
-                }
-                return t;
-            }
-
+            //Tri pour les notes
             tri(classement, function(a, b) {
                 return a > b;
-            })
+            });
+
+            //Boucle pour visualiser le resultat du premier classement dans la console 
+            for (var i = 0; i < classement.length; i++) {
+             console.log(classementEleve[i]); // Classement des Eleves par nom, les plus forts a 0 et les nul en dernier
+            }
+					console.log("-------------------------------------");
+					deuxiemeClassement(matiere, classement, classementEleve);
+        }
+
+        function deuxiemeClassement(matiere, premierClassement, premierClassementEleve) {
+            var ligne;
+            var colonne;
+            var nbVote;
+					 var matriceDeVote = initialiserMatriceDeVote();
+
+            for (var EleveVoteur in votes) {
+                ligne = determinerLigne_Colonne(EleveVoteur);
+                if (ligne != -1) {
+                    for (var k = 0; premierClassementEleve[k] != EleveVoteur; k++) {}
+                    nbVote = 0;
+
+                    //Compte pour combien de personne, elle a voté
+                    for (var EleveElu of votes[EleveVoteur][matiere]) {
+                        nbVote++;
+                    }
+
+                    var pointAttribue = (1 / nbVote) * premierClassement[k];
+                    for (var EleveElu of votes[EleveVoteur][matiere]) {
+                        colonne = determinerLigne_Colonne(EleveElu);
+                        if (colonne != -1) {
+                            //console.log(EleveElu);
+                            //console.log("ligne "+ligne+" | colonne "+colonne);
+                            matriceDeVote[ligne][colonne] += pointAttribue;
+                        }
+                    }
+                }
+            }
+            consrtuireClassementFinal(matriceDeVote);
+        }
+
+        function consrtuireClassementFinal(matrice) {
+            var nb = 0;
+            for (var i in logins) {
+                nb++;
+            }
+
+            var classement = new Array();
+            classement.length = parseInt(nb);
+
+            var classementEleve = new Array();
+            classementEleve.length = parseInt(nb);
+
+            var val;
+
+            for (var i = 0; i < matrice.length; i++) {
+                val = 0;
+                for (var j = 0; j < matrice.length; j++) {
+                    val = val + matrice[j][i];
+                }
+                classement[i] = val;
+                var compteur = 0;
+                for (var k in logins) {
+                    if (i == compteur)
+                        classementEleve[i] = "" + logins[k];
+                    compteur++;
+                }
+            }
+
+            //Tri pour le nom
+            tri(classement, function(a, b) {
+                return a > b;
+            }, classementEleve);
+
+            //Tri pour les notes
+            tri(classement, function(a, b) {
+                return a > b;
+            });
 
 
             //Boucle pour visualiser le resultat du premier classement dans la console 
             for (var i = 0; i < classement.length; i++) {
                 console.log(classementEleve[i]); // Classement des Eleves par nom, les plus forts a 0 et les nul en dernier
-		    //C'est classement Eleve qu'il faut afficher, fait une fonction qui affiche un tableau et après j'aurais juste a coder le deuxieme tri
-                console.log(classement[i]); //Classement des Notes des Eleves
+                //console.log(classement[i]); //Classement des Notes des Eleves
             }
         }
     </script>
