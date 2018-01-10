@@ -19,3 +19,21 @@ time, mark, audio, video {
     vertical-align: baseline;
     font-family: 'Raleway', sans-serif;
 }
+table {
+	font-size: 12px;
+	margin-left: 10%;
+	width: 25%;
+	text-align: center;
+}
+th{
+	font-size: 13px;
+	font-weight: normal;
+	padding: 8px;   
+	background-color: #b9c9fe ;
+}
+td { 
+	padding: 8px;
+	margin: 0;
+	background-color: #e8edff;
+	width:50%;
+}
