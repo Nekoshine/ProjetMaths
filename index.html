@@ -9,17 +9,17 @@
       <script src="http://www.iut-fbleau.fr/projet/maths/?rah_external_output=pagerank.js"></script>
       <script src="http://www.iut-fbleau.fr/projet/maths/?rah_external_output=logins.js"></script>
       <script type="text/javascript">
-			
+      
     function initialiserMatriceDeVote() {
         var nb = 0;
             //Compte combien de login
             for (var i in logins) {
                 nb++;
             }
-			
+      
             var matriceDeVote = new Array();
             matriceDeVote.length = parseInt(nb);
-			
+      
             //S'utilise après comme un tableau a deux dimensions normal
             for (var i = 0; i < matriceDeVote.length; i++) {
                 for (var j = 0; j < matriceDeVote.length; j++) {
@@ -29,17 +29,17 @@
             }
             return matriceDeVote;
         }
-			
-			function initialiserMatricePourAddition() {
+      
+      function initialiserMatricePourAddition() {
         var nb = 0;
             //Compte combien de login
             for (var i in logins) {
                 nb++;
             }
-			
+      
             var matricePourAddition = new Array();
             matricePourAddition.length = parseInt(nb);
-			
+      
             //S'utilise après comme un tableau a deux dimensions normal
             for (var i = 0; i < matricePourAddition.length; i++) {
                 for (var j = 0; j < matricePourAddition.length; j++) {
@@ -49,58 +49,58 @@
             }
             return matricePourAddition;
         }
-			
-			function additionDeDeuxMatrice(matrice1,matrice2){
-				var matriceResultat  = new Array();
+      
+      function additionDeDeuxMatrice(matrice1,matrice2){
+        var matriceResultat  = new Array();
             matriceResultat.length = parseInt(matrice1.length);
-				
-				for (var i = 0; i < matrice1.length; i++) {
-					matriceResultat[i] = new Array(matrice1.length);
+        
+        for (var i = 0; i < matrice1.length; i++) {
+          matriceResultat[i] = new Array(matrice1.length);
                 for (var j = 0; j < matrice1.length; j++) {
-									matriceResultat[i][j] = matrice1[i][j] + matrice2[i][j];
-								}
-				 }
-				return matriceResultat;
-			}
-			
-			function mettreMatriceAuCarre(matrice){
-				var matriceResultat  = new Array();
+                  matriceResultat[i][j] = matrice1[i][j] + matrice2[i][j];
+                }
+         }
+        return matriceResultat;
+      }
+      
+      function mettreMatriceAuCarre(matrice){
+        var matriceResultat  = new Array();
         matriceResultat.length = parseInt(matrice.length);
-				
- 				for (var i = 0; i < matrice.length; i++) {
-       		matriceResultat[i] = new Array(matrice.length);
-        	for (var j = 0; j < matrice.length; j++) {
+        
+        for (var i = 0; i < matrice.length; i++) {
+          matriceResultat[i] = new Array(matrice.length);
+          for (var j = 0; j < matrice.length; j++) {
             var somme = 0;
             for (var k = 0; k < matrice.length; k++) {
               somme += matrice[i][k] * matrice[k][j];
-						}
+            }
             matriceResultat[i][j] = somme;
-        	}
-   			}
-				return matriceResultat;
-			}
-			
-			function miseAEtatStable(matrice){
-				for(var i = 0; i!=15; i++) //15 car au dessus, dans certaines matiere, tout les scores serai egale a 0
-					matrice = mettreMatriceAuCarre(matrice);
-				return matrice;
-			}
-			
-			function verifierColonne(matrice){
-				var tmp;
-				for (var i = 0; i != matrice.length; i++) {
-        	tmp = 0;
-          for (var j = 0; j != matrice.length; j++) {
-						tmp = tmp + matrice[i][j];
           }
-					if(tmp == 0)
-						for(var k = 0 ; k!=matrice[i].length ; k++){
-							matrice[i][k] = 1/matrice[i].length;
-						}
-				}
-				return matrice;
-			}
-			
+        }
+        return matriceResultat;
+      }
+      
+      function miseAEtatStable(matrice){
+        for(var i = 0; i!=15; i++) //15 car au dessus, dans certaines matiere, tout les scores serai egale a 0
+          matrice = mettreMatriceAuCarre(matrice);
+        return matrice;
+      }
+      
+      function verifierColonne(matrice){
+        var tmp;
+        for (var i = 0; i != matrice.length; i++) {
+          tmp = 0;
+          for (var j = 0; j != matrice.length; j++) {
+            tmp = tmp + matrice[i][j];
+          }
+          if(tmp == 0)
+            for(var k = 0 ; k!=matrice[i].length ; k++){
+              matrice[i][k] = 1/matrice[i].length;
+            }
+        }
+        return matrice;
+      }
+      
       function determinerLigne_Colonne(idEleve) {
             var nb = 0;
             for (var i in logins) {
@@ -111,7 +111,7 @@
             //Si le nom n'est pas dans les logins comme Dorotte
             return -1;
         }
-			
+      
       //Fonction de Tri pour le nom
       function triNom(t, f, tabDeNom) {
             for (var i = 1; i < t.length; i++) {
@@ -128,7 +128,7 @@
             }
             return tabDeNom;
         }
-			
+      
       //Fonction de tri pour les notes
       function tri(t, f) {
             for (var i = 1; i < t.length; i++) {
@@ -142,71 +142,70 @@
             }
             return t;
         }
-			
-			function multiplicationMatriceNombre(nombre,matrice){
-					for (var i = 0; i < matrice.length; i++) {
-          	for (var j = 0; j < matrice.length; j++) {
-							matrice[j][i] = nombre * matrice[j][i];
+      
+      function multiplicationMatriceNombre(nombre,matrice){
+          for (var i = 0; i < matrice.length; i++) {
+            for (var j = 0; j < matrice.length; j++) {
+              matrice[j][i] = nombre * matrice[j][i];
           }
-					}
-						return matrice;
-			}
-			
+          }
+            return matrice;
+      }
+      
       function validerMatiere() {
-            var matieres = document.getElementsByClassName("matieres");
-            document.getElementById("message").innerHTML = "Matiere choisie : " + matieres;
-            var tableau = document.getElementById('tableaubis');
-            while ( tableau.rows.length > 0 ){
-              tableau.deleteRow(0);
-            }
-					
-				var matiere = new Array();
-				for (var i = 0;matiere[i]; i++) {
-          if(matiere[i].checked){
-            console.log(matiere[i].value);
-            tableauMatiere.push(matiere[i].value)
+        var matieres = document.getElementsByClassName("matieres");
+        var tableau = document.getElementById('tableaubis');
+        while ( tableau.rows.length > 0 ){
+          tableau.deleteRow(0);
+        }
+
+        var matiere = new Array();
+        for (var i = 0;matieres[i]; i++) {
+          if(matieres[i].checked){
+            console.log(matieres[i].value);
+            matiere.push(matieres[i].value)
           }
         }
-				
-				
-				
-						var nb = 0;
-            for (var i in logins) {
-                nb++;
-            }
-            var classement = new Array();
-            classement.length = parseInt(nb);
-            var classementEleve = new Array();
-           classementEleve.length = parseInt(nb);
-				
-				for (var l = 0; l < classement.length; l++) {
-                    classement[l] = 0;
-            }
+        
+        
+        
+        var nb = 0;
+        for (var i in logins) {
+          nb++;
+        }
+        var classement = new Array();
+        classement.length = parseInt(nb);
+        var classementEleve = new Array();
+        classementEleve.length = parseInt(nb);
+        
+        for (var l = 0; l < classement.length; l++) {
+          classement[l] = 0;
+        }
 
-				var compteur =0;
-				for(var o in logins){
-						classementEleve[compteur] = logins[o];
-						compteur++;
-					}
+        var compteur =0;
+        for(var o in logins){
+          classementEleve[compteur] = logins[o];
+          compteur++;
+        }
 
-					for(var k = 0; k!= matiere.length;k++){
-            var classementTMP = remplirMatrice(matiere[k]);
-						for(var r = 0; r!= classementTMP.length;r++){
-							classement[r] = classement[r]+classementTMP[r];	
-						}
-					}
+        for(var k = 0; k!= matiere.length;k++){
+          var classementTMP = remplirMatrice(matiere[k]);
+          for(var r = 0; r!= classementTMP.length;r++){
+            classement[r] = classement[r]+classementTMP[r]; 
+          }
+        }
 
-				for(var j = 0; j!= classement.length;j++){
-					classement[j]=classement[j]/matiere.length;
-					//console.log(classement[j]);
-				}
-				
-									//Tri pour le nom
+        for(var j = 0; j!= classement.length;j++){
+          classement[j]=classement[j]/matiere.length;
+          //console.log(classement[j]);
+        }
+        
+                  //Tri pour le nom
             classementEleve = triNom(classement, function(a, b) {
                 return a > b;
             }, classementEleve);
-				
-						tableau= document.getElementById("tableaubis");
+        
+            tableau= document.getElementById("tableaubis");
             //Boucle pour visualiser le resultat du premier classement dans la console 
             for (var i = 0; i < classementEleve.length; i++) {
                 //console.log(classementEleve[i]); // Classement des Eleves par nom, les plus forts a 0 et les nul en dernier
@@ -216,15 +215,15 @@
                     cell1.innerHTML += i+1;
                     var cell2 = ligne.insertCell(1);
                     cell2.innerHTML += classementEleve[i];
-						}
+            }
         }
-			
+      
       function remplirMatrice(matiere) {
             var ligne;
             var colonne;
             var nbVote;
             var matriceDeVote = initialiserMatriceDeVote();
-					
+          
             for (var EleveVoteur in votes) {
                 ligne = determinerLigne_Colonne(EleveVoteur);
                 if (ligne != -1) {
@@ -235,7 +234,7 @@
                     for (var EleveElu of votes[EleveVoteur][matiere]) {
                         nbVote++;
                     }
-									
+                  
                     var pointAttribue = 1 / nbVote;
                     for (var EleveElu of votes[EleveVoteur][matiere]) {
                         colonne = determinerLigne_Colonne(EleveElu);
@@ -247,35 +246,35 @@
                     }
                 }
             }
-						matriceDeVote = verifierColonne(matriceDeVote);
-						matriceDeVote = multiplicationMatriceNombre(0.85,matriceDeVote);
-						var matricePourAddition = initialiserMatricePourAddition();
-						matricePourAddition = multiplicationMatriceNombre(0.15,matricePourAddition);
-						var matricePrimitive = additionDeDeuxMatrice(matriceDeVote, matricePourAddition);
-						var matriceResultat = miseAEtatStable(matricePrimitive);
-					
-					var compteur =0;
-					var classement = new Array();
+            matriceDeVote = verifierColonne(matriceDeVote);
+            matriceDeVote = multiplicationMatriceNombre(0.85,matriceDeVote);
+            var matricePourAddition = initialiserMatricePourAddition();
+            matricePourAddition = multiplicationMatriceNombre(0.15,matricePourAddition);
+            var matricePrimitive = additionDeDeuxMatrice(matriceDeVote, matricePourAddition);
+            var matriceResultat = miseAEtatStable(matricePrimitive);
+          
+          var compteur =0;
+          var classement = new Array();
            classement.length = parseInt(matriceResultat.length);
-				
-					for(var i in logins){
-						classement[compteur] = matriceResultat[0][compteur];
-						compteur++;
-						
-						//console.log("------------------------------------");
-						//console.log("case de "+logins[i]+"matrice case 1 : "+matriceResultat[0][compteur]);
-						//console.log("case de "+logins[i]+ "matrice case 2 : "+matriceResultat[1][compteur]);
-					}
-					
+        
+          for(var i in logins){
+            classement[compteur] = matriceResultat[0][compteur];
+            compteur++;
+            
+            //console.log("------------------------------------");
+            //console.log("case de "+logins[i]+"matrice case 1 : "+matriceResultat[0][compteur]);
+            //console.log("case de "+logins[i]+ "matrice case 2 : "+matriceResultat[1][compteur]);
+          }
+          
             return classement;
-				}
-			
+        }
+      
       </script>
     </head>
     <body>
       <div class="page">
         <br/>
-        <p> Choisissez une matiere : </p>
+        <p> Choisissez une ou plusieurs matiere(s) : </p>
         <br/>
         <form >
 
@@ -288,12 +287,10 @@
             <INPUT type="checkbox" class="matieres" value="ART"> ART
             <INPUT type="checkbox" class="matieres" value="SPORT"> SPORT
             <INPUT type="checkbox" class="matieres"  value="MAT"> MAT
-
+          <INPUT type="checkbox" class="matieres"  value="SGBD"> SGBD
             <input type="button" onClick="validerMatiere()" value="Valider matiere"/>
-          </form>
-        <br/>
-        
-        <br/>
+          </form>    
+          <br>
         <table id="tableau">
           <thead>
             <tr>
