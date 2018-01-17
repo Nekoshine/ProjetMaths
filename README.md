@@ -1,2 +1,2 @@
 # ProjetMaths
-Projet de Mathématiques en coopération avec Florian Vazelle
+Projet de Mathématiques réalisé par Florian Vazelle et Esteban Cormier
