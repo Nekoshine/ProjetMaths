@@ -153,17 +153,20 @@
 			}
 			
       function validerMatiere() {
-            var matiereTest = document.getElementById("matieres").value;
-            document.getElementById("message").innerHTML = "Matiere choisie : " + matiereTest;
+            var matieres = document.getElementsByClassName("matieres");
+            document.getElementById("message").innerHTML = "Matiere choisie : " + matieres;
             var tableau = document.getElementById('tableaubis');
             while ( tableau.rows.length > 0 ){
               tableau.deleteRow(0);
             }
 					
 				var matiere = new Array();
-				matiere[0] = matiereTest;
-				matiere[1] = "ACDA"
-				//ICI CONSTRUIRE LE TABLEAU DES MATIERE
+				for (var i = 0;matiere[i]; i++) {
+          if(matiere[i].checked){
+            console.log(matiere[i].value);
+            tableauMatiere.push(matiere[i].value)
+          }
+        }
 				
 				
 				
@@ -274,18 +277,22 @@
         <br/>
         <p> Choisissez une matiere : </p>
         <br/>
-        <form>
-          <select name="Matieres" id="matieres" size="3">
-            <option>APL</option>
-            <option>ASR</option>
-            <option>ACDA</option>
-            <option>SGBD</option>
-            <option>EGOD</option>
-          </select>
-          <input type="button" onClick="validerMatiere()" value="Valider matiere"/>
-        </form>
+        <form >
+
+            <INPUT type="checkbox"class="matieres"  value="ACDA"> ACDA
+            <INPUT type="checkbox" class="matieres"  value="APL"> APL
+            <INPUT type="checkbox" class="matieres"  value="ASR"> ASR
+            <INPUT type="checkbox" class="matieres"  value="ANG"> ANG
+            <INPUT type="checkbox" class="matieres"  value="EC"> EC
+            <INPUT type="checkbox" class="matieres"  value="EGOD"> EGOD
+            <INPUT type="checkbox" class="matieres" value="ART"> ART
+            <INPUT type="checkbox" class="matieres" value="SPORT"> SPORT
+            <INPUT type="checkbox" class="matieres"  value="MAT"> MAT
+
+            <input type="button" onClick="validerMatiere()" value="Valider matiere"/>
+          </form>
         <br/>
-        <p id="message"> Matiere choisie :</p>
+        
         <br/>
         <table id="tableau">
           <thead>
