@@ -88,9 +88,9 @@
 			
 			function verifierColonne(matrice){
 				var tmp;
-				for (var i = 0; i < matrice.length; i++) {
+				for (var i = 0; i != matrice.length; i++) {
         	tmp = 0;
-          for (var j = 0; j < matrice.length; j++) {
+          for (var j = 0; j != matrice.length; j++) {
 						tmp = tmp + matrice[i][j];
           }
 					if(tmp == 0)
@@ -101,7 +101,7 @@
 				return matrice;
 			}
 			
-        function determinerLigne_Colonne(idEleve) {
+      function determinerLigne_Colonne(idEleve) {
             var nb = 0;
             for (var i in logins) {
                 if (idEleve == i)
@@ -112,8 +112,8 @@
             return -1;
         }
 			
-        //Fonction de Tri pour le nom
-        function triNom(t, f, tabDeNom) {
+      //Fonction de Tri pour le nom
+      function triNom(t, f, tabDeNom) {
             for (var i = 1; i < t.length; i++) {
                 var temp = t[i];
                 var temp2 = tabDeNom[i];
@@ -129,8 +129,8 @@
             return tabDeNom;
         }
 			
-        //Fonction de tri pour les notes
-        function tri(t, f) {
+      //Fonction de tri pour les notes
+      function tri(t, f) {
             for (var i = 1; i < t.length; i++) {
                 var temp = t[i];
                 var j = i - 1;
@@ -152,19 +152,61 @@
 						return matrice;
 			}
 			
-        function validerMatiere() {
-            var matiere = document.getElementById("matieres").value;
-            document.getElementById("message").innerHTML = "Matiere choisie : " + matiere;
+      function validerMatiere() {
+            var matiereTest = document.getElementById("matieres").value;
+            document.getElementById("message").innerHTML = "Matiere choisie : " + matiereTest;
             var tableau = document.getElementById('tableaubis');
             while ( tableau.rows.length > 0 ){
               tableau.deleteRow(0);
             }
-            var classementEleve = remplirMatrice(matiere);
 					
+				var matiere = new Array();
+				matiere[0] = matiereTest;
+				matiere[1] = "ACDA"
+				//ICI CONSTRUIRE LE TABLEAU DES MATIERE
+				
+				
+				
+						var nb = 0;
+            for (var i in logins) {
+                nb++;
+            }
+            var classement = new Array();
+            classement.length = parseInt(nb);
+            var classementEleve = new Array();
+           classementEleve.length = parseInt(nb);
+				
+				for (var l = 0; l < classement.length; l++) {
+                    classement[l] = 0;
+            }
+
+				var compteur =0;
+				for(var o in logins){
+						classementEleve[compteur] = logins[o];
+						compteur++;
+					}
+
+					for(var k = 0; k!= matiere.length;k++){
+            var classementTMP = remplirMatrice(matiere[k]);
+						for(var r = 0; r!= classementTMP.length;r++){
+							classement[r] = classement[r]+classementTMP[r];	
+						}
+					}
+
+				for(var j = 0; j!= classement.length;j++){
+					classement[j]=classement[j]/matiere.length;
+					//console.log(classement[j]);
+				}
+				
+									//Tri pour le nom
+            classementEleve = triNom(classement, function(a, b) {
+                return a > b;
+            }, classementEleve);
+				
 						tableau= document.getElementById("tableaubis");
             //Boucle pour visualiser le resultat du premier classement dans la console 
             for (var i = 0; i < classementEleve.length; i++) {
-                console.log(classementEleve[i]); // Classement des Eleves par nom, les plus forts a 0 et les nul en dernier
+                //console.log(classementEleve[i]); // Classement des Eleves par nom, les plus forts a 0 et les nul en dernier
                
                     var ligne = tableau.insertRow(-1);
                     var cell1 =ligne.insertCell(0);
@@ -174,7 +216,7 @@
 						}
         }
 			
-        function remplirMatrice(matiere) {
+      function remplirMatrice(matiere) {
             var ligne;
             var colonne;
             var nbVote;
@@ -212,12 +254,9 @@
 					var compteur =0;
 					var classement = new Array();
            classement.length = parseInt(matriceResultat.length);
-           var classementEleve = new Array();
-           classementEleve.length = parseInt(matriceResultat.length);
-					
+				
 					for(var i in logins){
 						classement[compteur] = matriceResultat[0][compteur];
-						classementEleve[compteur] = logins[i];
 						compteur++;
 						
 						//console.log("------------------------------------");
@@ -225,12 +264,7 @@
 						//console.log("case de "+logins[i]+ "matrice case 2 : "+matriceResultat[1][compteur]);
 					}
 					
-					//Tri pour le nom
-            classementEleve = triNom(classement, function(a, b) {
-                return a > b;
-            }, classementEleve);
-					
-            return classementEleve;
+            return classement;
 				}
 			
       </script>
